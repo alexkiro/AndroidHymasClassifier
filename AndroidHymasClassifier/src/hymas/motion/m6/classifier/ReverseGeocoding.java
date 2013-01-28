@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
@@ -26,7 +27,7 @@ abstract class ReverseGeocoding {
      *
      * @param latitude
      * @param longitude
-     * @return True daca se afla in interiorul unui oras
+     * @return True daca se afla in interiorul unui oras, False altfel
      */
     public static boolean checkIfInCity(double latitude, double longitude) {
         try {
@@ -40,7 +41,7 @@ abstract class ReverseGeocoding {
             URL url = new URL(restEndPoint);
 
             inputStreamContainer = url.openStream();
-            URLConnection urlc = url.openConnection();
+            HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
             urlc.setDoOutput(true);
             urlc.setAllowUserInteraction(false);
 

@@ -11,6 +11,13 @@ import hymas.motion.m6.classifier.MotionSensorUtils;
 
 /**
  * Punctul de intrare a modulului M6
+ * <br/>
+ * Permisiunile necesare:
+ * <ul>
+ * <li>android.permission.ACCESS_FINE_LOCATION</li>
+ * <li>android.permission.ACCESS_COARSE_LOCATION</li>
+ * <li>android.permission.INTERNET</li>
+ * </ul>
  * @author Chirila Alexandru
  */
 public class M6 {
