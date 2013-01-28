@@ -43,6 +43,7 @@ public class MotionClassifier {
     private long startTime;
     private long endTime;
     //scheduling
+    boolean running = false;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> handle;
     private List<ChangeMotionListener> onChangeEvents = new LinkedList<ChangeMotionListener>();
@@ -98,8 +99,11 @@ public class MotionClassifier {
      * miscare
      */
     public void startClassifying() {
-        startTime = System.currentTimeMillis();
-        handle = scheduler.scheduleWithFixedDelay(classify, T, T, TimeUnit.SECONDS);
+        if (!running) {
+            running = true;
+            startTime = System.currentTimeMillis();
+            handle = scheduler.scheduleWithFixedDelay(classify, T, T, TimeUnit.SECONDS);
+        }
     }
 
     /**
@@ -107,7 +111,10 @@ public class MotionClassifier {
      * miscare
      */
     public void stopClassifying() {
-        handle.cancel(false);
+        if (running) {
+            handle.cancel(false);
+            running = false;
+        }
     }
 
     /**
