@@ -17,28 +17,35 @@ import java.util.logging.Logger;
  * <pre> {@code
  * MotionClassifier.getInstance().registerChangeMotionListener(new ChangeMotionListener() {
  *
- * @Override public void onChangeMotion(Label oldMotion, Label newMotion) {
- * //foloseste newMotion } });
+ *      @Override public void onChangeMotion(Label oldMotion, Label newMotion) {
+ *      //foloseste newMotion } 
+ *      });
  * MotionClassifier.getInstance().startClassifying(); //pornire clasificator
  *
- *     //... //adaugare de date colectate de la senzori
- * MotionClassifier.getInstance().addGpsData(47.17410181649029,
- * 27.575028548017144, 5.0, 62.0, 1359032216000l); // ...
- * MotionClassifier.getInstance().stopClassifying(); }</pre>
+ *     //... 
+ * //adaugare de date colectate de la senzori
+ * MotionClassifier.getInstance().addGpsData(47.17410181649029, 27.575028548017144, 5.0, 62.0, 1359032216000l); 
+ * // ...
+ * Label label = MotionClassifier.getInstance().getLastKnownMotion();
+ * 
+ * MotionClassifier.getInstance().stopClassifying(); //oprire clasificare
+ * }</pre>
  * @author Chirila Alexandru
  */
 public class MotionClassifier {
 
     // parametri fixati
-    private final int T = 180; //nr de secunde
+    private final int T = 180; //nr de secunde a intervalului
     private final double acuracyThreshold = 30.0;
     private final double bearingThreshold = 15.0;
-    private final double tolerance = 0.833333; //3kph
+    private final double tolerance = 0.833333; //3km/h (determinarea opririlor)
     private LinkedList<Bearing> bearings = new LinkedList<Bearing>();
     private LinkedList<Speed> speeds = new LinkedList<Speed>();
     private LinkedList<Boolean> revGeos = new LinkedList<Boolean>();
+    // calcularea vitezei
     private double[] lastGpsData = null;
     private long lastGpsTime = 0;
+    // clasificare
     private Label lastKnownMotion = null;
     private long startTime;
     private long endTime;
