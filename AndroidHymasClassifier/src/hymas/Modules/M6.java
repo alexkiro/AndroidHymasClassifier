@@ -10,39 +10,40 @@ import hymas.motion.m6.classifier.MotionClassifier;
 import hymas.motion.m6.classifier.MotionSensorUtils;
 
 /**
- * Punctul de intrare a modulului M6
- * <br/>
- * Permisiunile necesare:
- * <ul>
+ * Punctul de intrare a modulului M6 <br/> Permisiunile necesare: <ul>
  * <li>android.permission.ACCESS_FINE_LOCATION</li>
  * <li>android.permission.ACCESS_COARSE_LOCATION</li>
- * <li>android.permission.INTERNET</li>
- * </ul>
+ * <li>android.permission.INTERNET</li> </ul>
+ *
  * @author Chirila Alexandru
  */
 public class M6 {
-    /**
-     * Metoda principala a modulului M6. Aceasta incepe procesul de colectare de 
-     * date, si regulat aplica clasificatorul pentru a deduce situatia de miscare.
-     * @param ctx metoda are nevoie de contextul aplicatiei Android, pentru a avea acces la senzori
-     */
-    public static void process(Context ctx){
-        
-        MotionClassifier.getInstance().registerChangeMotionListener(new ChangeMotionListener() {
 
+    /**
+     * Metoda principala a modulului M6. Aceasta incepe procesul de colectare de
+     * date, si regulat aplica clasificatorul pentru a deduce situatia de
+     * miscare.
+     *
+     * @param ctx metoda are nevoie de contextul aplicatiei Android, pentru a
+     * avea acces la senzori
+     */
+    public static void process(Context ctx) {
+
+        MotionClassifier.getInstance().registerChangeMotionListener(new ChangeMotionListener() {
             public void onChangeMotion(Label oldMotion, Label newMotion) {
-                //TODO: add graphical user interface call here
+                //TODO: add graphical user interface call here (M14)
+                //aici se va face integrarea cu modulul M14 cand va fi disponibila
+                //updateMotionNotification(newMotion);
             }
         });
-        
-        MotionClassifier.getInstance().startClassifying();
-        
-        MotionSensorUtils.beginListening(ctx, new LocationListener() {
 
+        MotionClassifier.getInstance().startClassifying();
+
+        MotionSensorUtils.beginListening(ctx, new LocationListener() {
             public void onLocationChanged(Location loc) {
                 MotionClassifier.getInstance().addGpsData(
-                        loc.getLatitude(),loc.getLongitude(),
-                        loc.getAccuracy(),loc.getBearing(), loc.getTime());
+                        loc.getLatitude(), loc.getLongitude(),
+                        loc.getAccuracy(), loc.getBearing(), loc.getTime());
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -56,5 +57,8 @@ public class M6 {
                 MotionClassifier.getInstance().stopClassifying();
             }
         });
+
+
+        
     }
 }
